@@ -20,8 +20,9 @@ RUN apt-get update && \
 # configure nginx
 RUN rm -f /etc/nginx/sites-enabled/default && \
     rm -f /etc/nginx/sites-available/default
-COPY config/nginx/webapp.conf /etc/nginx/sites-available/webapp.conf
-RUN ln -s /etc/nginx/sites-available/webapp.conf /etc/nginx/sites-enabled/webapp.conf
+COPY config/nginx/webapp.1.conf /etc/nginx/sites-available/webapp.1.conf
+COPY config/nginx/webapp.2.conf /etc/nginx/sites-available/webapp.2.conf
+# RUN ln -s /etc/nginx/sites-available/webapp.conf /etc/nginx/sites-enabled/webapp.conf
 
 # config supervisor
 RUN mkdir -p /var/log/supervisor

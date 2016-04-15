@@ -24,6 +24,9 @@ done
 
 $LE;
 
+#Should do checking of exit code at some point.
+#LE_EXIT=$!;
+
 # Determine if the files have changed
 
 ORIG_KEY=`md5sum /etc/nginx/ssl/nginx.key | awk '{print $1 }'`
