@@ -1,0 +1,15 @@
+docker-nginx-letsencrypt:
+    image: annixa/docker-nginx-letsencrypt
+    ports:
+        - 80:80
+        - 443:443
+    container_name: docker-nginx-letsencrypt
+    log_opt:
+         max-size: 50k
+    environment:
+        # - LE_TEST=true # LE is rate limited. While doing development, be sure to set testing mode so requests don't count against our quota.
+        - LE_EMAIL=test@test.com
+        - LE_DOMAIN=domain.com
+        # - SLACK_NOTIFICATIONS_INFRA_URL=https://hooks.slack.com/services/???????? # Be sure to fill this in using your URL for the slack webhook integration
+    volumes:
+      - "/etc/letsencrypt"
