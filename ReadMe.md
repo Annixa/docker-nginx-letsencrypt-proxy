@@ -3,6 +3,8 @@ Docker Nginx Proxy with Let's Encrypt simplifies application integration with Le
 
 This project provides a simple nginx configuration and auto-updating Let's Encrypt for integration with existing services. 
 
+Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
+
 ##Configuration:
 The following docker environment variables are required for proper usage:
 - `LE_DOMAIN`, a comma separated list of domains current configured to point at your server
