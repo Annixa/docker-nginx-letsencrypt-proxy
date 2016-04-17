@@ -8,7 +8,7 @@ The following docker environment variables are required for proper usage:
 - `LE_DOMAIN`, a comma separated list of domains current configured to point at your server
 - `LE_EMAIL`, the email address for use with Let's Encrypt (simply registers your public key for retrieval).
 - `PROXY_DEST`, the destination for the proxied service; along the lines of `http://mydestination.com` or `http://localhost:8000`
-- `SLACK_NOTIFICATIONS_INFRA_URL` (optional), the slack webhook integration URL to receive slack notifications upon certificate update.
+- `SLACK_NOTIFICATIONS_INFRA_URL` (optional), the slack webhook integration URL to receive slack notifications upon certificate update or `letsencrypt-auto` error.
 
 ### When certificates are updated, the event handler will:
 - Move the resulting certificates to `/etc/nginx/ssl`
