@@ -11,6 +11,8 @@ The following docker environment variables are required for proper usage:
 - `LE_EMAIL`, the email address for use with Let's Encrypt (simply registers your public key for retrieval).
 - `PROXY_DEST`, a comma separated list of destinations for the proxied services; along the lines of `http://mydestination.com` or `http://localhost:8000`. There should be as many destinations as `LE_DOMAIN`s; however, for each without a corresponding destination, the first destination will be used for the remaining `LE_DOMAIN`s.
 - `SLACK_NOTIFICATIONS_INFRA_URL` (optional), the slack webhook integration URL to receive slack notifications upon certificate update or `letsencrypt-auto` error.
+- `LE_TEST` (optional), LE is rate limited. While testing your stack, be sure to set testing mode so requests don't count against your domain quota.
+  - See [https://community.letsencrypt.org/t/rate-limits-for-lets-encrypt/6769](https://community.letsencrypt.org/t/rate-limits-for-lets-encrypt/6769) for more information.
 - `TLS_SETTING` (optional), one of `MODERN`, `INTERMEDIATE`, OR `OLD`. All other values will be igored. `MODERN` is default to allow for the best security setting.
   - See [https://wiki.mozilla.org/Security/Server_Side_TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) for more details
   - See [docker-entrypoint.sh](https://github.com/Annixa/docker-nginx-letsencrypt-proxy/blob/master/docker-entrypoint.sh) for the suites used

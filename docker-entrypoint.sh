@@ -34,11 +34,11 @@ else
 
 	# Check previous existence of certificates 
 	echo "DOCKER NGINX LET'S ENCRYPT: Checking for previous certificate existence";
-	LE_CERT="/etc/letsencrypt/live/$LE_DOMAIN/fullchain.pem"
-	LE_KEY="/etc/letsencrypt/live/$LE_DOMAIN/privkey.pem"
+	LE_CERT="/etc/letsencrypt/live/$DOMAINS/fullchain.pem";
+	LE_KEY="/etc/letsencrypt/live/$DOMAINS/privkey.pem";
 	if [ -e $LE_CERT ] && [ -e $LE_KEY ]; then
-		cp /etc/letsencrypt/live/$DOMAINS/fullchain.pem /etc/nginx/ssl/nginx.crt 
-		cp /etc/letsencrypt/live/$DOMAINS/privkey.pem /etc/nginx/ssl/nginx.key
+		cp /etc/letsencrypt/live/$DOMAINS/fullchain.pem /etc/nginx/ssl/nginx.crt; 
+		cp /etc/letsencrypt/live/$DOMAINS/privkey.pem /etc/nginx/ssl/nginx.key;
 		echo "DOCKER NGINX LET'S ENCRYPT: Previous keys found. Moved to nginx ssl directory";
 	else
 		echo "DOCKER NGINX LET'S ENCRYPT: No certificates found.";
@@ -49,8 +49,7 @@ else
 	# Check to see if env is set and it's one of MODERN, INTERMEDIATE, or OLD.
 	# If check fails, set to MODERN
 	# [[ ${array[$test1]} ]];
-	if [ -z "$TLS_SETTING" ] && [[ ${TLS_SETTING_CIPHER["$TLS_SETTING"]} ]]; then
-
+	if [ -z "$TLS_SETTING" ] && ( ["$TLS_SETTING" == "MODERN"] || ["$TLS_SETTING" == "INTERMEDIATE"] ||  ["$TLS_SETTING" == "OLD"]} ] ); then
 		echo "DOCKER NGINX LET'S ENCRYPT: TLS_SETTING set to $TLS_SETTING";	
 	else
 
@@ -68,14 +67,14 @@ else
 	for i in "${DOMAINS[@]}"; do
 		# By default, grab the first PROXY_DEST in the array
 	    THIS_DEST="$DESTINATIONS"
-	    if [ CT -lt ${#DESTINATIONS[@]} ]; then
+	    if [ $CT -lt ${#DESTINATIONS[@]} ]; then
 		    # Get right VALUE
 		    THIS_DEST="${DESTINATIONS[$CT]}"
 		fi
 	    cat /etc/nginx/sites-available/webapp.1.conf >> /etc/nginx/sites-enabled/webapp.conf
 
-	    echo "	ssl_protocols	${TLS_SETTING_PROTOS["$TLS_SETTING"]}";
-	    echo "	ssl_ciphers '${TLS_SETTING_CIPHER["$TLS_SETTING"]}'";
+	    echo "	ssl_protocols	${TLS_SETTING_PROTOS["$TLS_SETTING"]};" >> /etc/nginx/sites-enabled/webapp.conf
+	    echo "	ssl_ciphers '${TLS_SETTING_CIPHER["$TLS_SETTING"]}';" >> /etc/nginx/sites-enabled/webapp.conf
 
 	    echo "	server_name $i;" >> /etc/nginx/sites-enabled/webapp.conf
 	    echo "  location / {" >> /etc/nginx/sites-enabled/webapp.conf
