@@ -48,8 +48,7 @@ else
 	# Determine TLS_SETTING
 	# Check to see if env is set and it's one of MODERN, INTERMEDIATE, or OLD.
 	# If check fails, set to MODERN
-	# [[ ${array[$test1]} ]];
-	if [ -z "$TLS_SETTING" ] && ( ["$TLS_SETTING" == "MODERN"] || ["$TLS_SETTING" == "INTERMEDIATE"] ||  ["$TLS_SETTING" == "OLD"]} ] ); then
+	if [ ! -z "$TLS_SETTING" ] && ( [ $TLS_SETTING="MODERN" ] || [ $TLS_SETTING="INTERMEDIATE" ] ||  [ $TLS_SETTING="OLD" ]} ] ); then
 		echo "DOCKER NGINX LET'S ENCRYPT: TLS_SETTING set to $TLS_SETTING";	
 	else
 
