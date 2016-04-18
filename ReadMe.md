@@ -5,7 +5,7 @@ This project provides a simple nginx configuration and auto-updating Let's Encry
 
 Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
 
-##Configuration:
+## Configuration:
 The following docker environment variables are required for proper usage:
 - `LE_DOMAIN`, a comma separated list of domains current configured to point at your server
 - `LE_EMAIL`, the email address for use with Let's Encrypt (simply registers your public key for retrieval).
