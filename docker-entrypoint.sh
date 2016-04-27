@@ -58,7 +58,16 @@ else
 
 	#GENERATE DHPARAM
 	echo "DOCKER NGINX LET'S ENCRYPT: Generating DH parameters";
-	openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+
+	# https://github.com/Annixa/docker-nginx-letsencrypt-proxy/issues/3
+	# Cache generated dhparams.pem
+	TLS_DHPARAMS="/etc/letsencrypt/dhparam.pem"
+	if [ -e $TLS_DHPARAMS ]; then
+		echo "DOCKER NGINX LET'S ENCRYPT: DHPARAMS already exist";
+	else
+		openssl dhparam -out "$TLS_DHPARAMS" 2048
+	fi
+	cp -f $TLS_DHPARAMS /etc/nginx/ssl/dhparam.pem
 
 	echo "DOCKER NGINX LET'S ENCRYPT: render nginx configuration with proxy and destination details details";
 	echo "" > /etc/nginx/sites-enabled/webapp.conf

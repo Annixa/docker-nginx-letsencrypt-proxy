@@ -14,3 +14,6 @@ docker-nginx-letsencrypt-proxy:
         # - SLACK_NOTIFICATIONS_INFRA_URL=https://hooks.slack.com/services/???????? # Be sure to fill this in using your URL for the slack webhook integration
     volumes:
       - "/etc/letsencrypt"
+    # links:
+    #   - mycontainer
+    # Be sure to link your container!
