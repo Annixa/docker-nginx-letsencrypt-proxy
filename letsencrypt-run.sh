@@ -6,7 +6,9 @@ export TERM
 # Only run if this variable is set; local stacks should generate a fake certificate.
 
 cd /opt/letsencrypt
-LE="./letsencrypt-auto --config /opt/letsencrypt.ini certonly -n --keep-until-expiring --agree-tos --email $LE_EMAIL "
+# https://github.com/Annixa/docker-nginx-letsencrypt-proxy/issues/6
+# Add --expand flag to LE: "When adding domains to the LE_DOMAIN env variable, you may be prompted to expand and replace the existing certificate with a new one."
+LE="./letsencrypt-auto --config /opt/letsencrypt.ini certonly -n --keep-until-expiring --expand --agree-tos --email $LE_EMAIL "
 
 if [ "$LE_TEST" = true ]; then
 	echo "LET'S ENCRYPT: TESTING MODE";
