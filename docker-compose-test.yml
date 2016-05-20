@@ -1,0 +1,25 @@
+docker-nginx-letsencrypt-proxy:
+    image: annixa/docker-nginx-letsencrypt-proxy:build
+    ports:
+        - 80:80
+        - 443:443
+    container_name: docker-nginx-letsencrypt-proxy
+    log_opt:
+        max-size: 50k
+    environment:
+        - LE_ENABLED=false
+        # - LE_TEST=true # LE is rate limited. While doing development, be sure to set testing mode so requests don't count against our quota.
+        - LE_EMAIL=test@test.com
+        - LE_DOMAIN=test.test.com
+        - PROXY_DEST=http://docker-nginx-letsencrypt-proxy-www/
+        # - SLACK_NOTIFICATIONS_INFRA_URL=https://hooks.slack.com/services/???????? # Be sure to fill this in using your URL for the slack webhook integration
+    volumes:
+      - "/etc/letsencrypt"
+    links:
+      - docker-nginx-letsencrypt-proxy-www
+    # Be sure to link your container!
+
+docker-nginx-letsencrypt-proxy-www:
+    image: nginx
+    container_name: docker-nginx-letsencrypt-proxy-www
+    command: bash -c 'echo "<html><head><title>It works</title></head><body>Docker Nginx Lets Encrypt Proxy is working.</body></html>" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
