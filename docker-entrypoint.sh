@@ -32,16 +32,21 @@ else
 
 	openssl req -passout pass: -subj "/C=US/ST=CA/L=San Diego/O=$DOMAINS/OU=TS/CN=$DOMAINS/emailAddress=support@$DOMAINS" -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 
-	# Check previous existence of certificates 
-	echo "DOCKER NGINX LET'S ENCRYPT: Checking for previous certificate existence";
-	LE_CERT="/etc/letsencrypt/live/$DOMAINS/fullchain.pem";
-	LE_KEY="/etc/letsencrypt/live/$DOMAINS/privkey.pem";
-	if [ -e $LE_CERT ] && [ -e $LE_KEY ]; then
-		cp /etc/letsencrypt/live/$DOMAINS/fullchain.pem /etc/nginx/ssl/nginx.crt; 
-		cp /etc/letsencrypt/live/$DOMAINS/privkey.pem /etc/nginx/ssl/nginx.key;
-		echo "DOCKER NGINX LET'S ENCRYPT: Previous keys found. Moved to nginx ssl directory";
+	# https://github.com/Annixa/docker-nginx-letsencrypt-proxy/issues/4
+	# Reintroduce LE_ENABLED mode
+	if [ "$LE_ENABLED" = false ]; then
+		echo "DOCKER NGINX LET'S ENCRYPT: Let's Encrypt is disabled according to the environment variable LE_ENABLED. Using self-signed certificates instead.";
 	else
-		echo "DOCKER NGINX LET'S ENCRYPT: No certificates found.";
+		echo "DOCKER NGINX LET'S ENCRYPT: Checking for previous certificate existence";
+		LE_CERT="/etc/letsencrypt/live/$DOMAINS/fullchain.pem";
+		LE_KEY="/etc/letsencrypt/live/$DOMAINS/privkey.pem";
+		if [ -e $LE_CERT ] && [ -e $LE_KEY ]; then
+			cp /etc/letsencrypt/live/$DOMAINS/fullchain.pem /etc/nginx/ssl/nginx.crt; 
+			cp /etc/letsencrypt/live/$DOMAINS/privkey.pem /etc/nginx/ssl/nginx.key;
+			echo "DOCKER NGINX LET'S ENCRYPT: Previous keys found. Moved to nginx ssl directory";
+		else
+			echo "DOCKER NGINX LET'S ENCRYPT: No certificates found.";
+		fi
 	fi
 
 	
