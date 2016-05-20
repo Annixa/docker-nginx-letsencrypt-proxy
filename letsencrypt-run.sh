@@ -4,6 +4,12 @@ TERM="xterm"
 export TERM
 
 # Only run if this variable is set; local stacks should generate a fake certificate.
+# https://github.com/Annixa/docker-nginx-letsencrypt-proxy/issues/4
+# Reintroduce LE_ENABLED mode
+if [ "$LE_ENABLED" = false ]; then
+	echo "DOCKER NGINX LET'S ENCRYPT: Let's Encrypt is disabled according to the environment variable LE_ENABLED. Using self-signed certificates instead.";
+	exit 0;
+fi
 
 cd /opt/letsencrypt
 LE="./letsencrypt-auto --config /opt/letsencrypt.ini certonly -n --keep-until-expiring --agree-tos --email $LE_EMAIL "
