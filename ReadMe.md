@@ -5,6 +5,12 @@ This project provides a simple nginx configuration and auto-updating Let's Encry
 
 Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
 
+- Pulls: ![Docker Hub Pulls](https://img.shields.io/docker/pulls/annixa/docker-nginx-letsencrypt-proxy.svg)
+- Stars: ![Docker Hub Stars](https://img.shields.io/docker/stars/annixa/docker-nginx-letsencrypt-proxy.svg)
+- Release: ![GitHub Release Version](https://img.shields.io/github/release/annixa/docker-nginx-letsencrypt-proxy.svg)
+- Open Issues: ![GitHub Open Issues](https://img.shields.io/github/issues/annixa/docker-nginx-letsencrypt-proxy.svg)
+
+
 ## Configuration:
 The following docker environment variables are required for proper usage:
 - `LE_EMAIL`, the email address for use with Let's Encrypt (simply registers your public key for retrieval).
