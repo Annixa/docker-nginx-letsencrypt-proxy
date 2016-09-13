@@ -1,17 +1,20 @@
-# Docker Nginx Proxy with Let's Encrypt
+Docker Nginx Proxy with Let's Encrypt
+=====================================
+
+![GitHub Release Version](https://img.shields.io/github/release/annixa/docker-nginx-letsencrypt-proxy.svg)
+![Docker Hub Pulls](https://img.shields.io/docker/pulls/annixa/docker-nginx-letsencrypt-proxy.svg)
+![Docker Hub Stars](https://img.shields.io/docker/stars/annixa/docker-nginx-letsencrypt-proxy.svg)
+![GitHub Open Issues](https://img.shields.io/github/issues/annixa/docker-nginx-letsencrypt-proxy.svg)
+
 Docker Nginx Proxy with Let's Encrypt simplifies application integration with Let's Encrypt.
 
 This project provides a simple nginx configuration and auto-updating Let's Encrypt for integration with existing services. 
 
 Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
 
-- Pulls: ![Docker Hub Pulls](https://img.shields.io/docker/pulls/annixa/docker-nginx-letsencrypt-proxy.svg)
-- Stars: ![Docker Hub Stars](https://img.shields.io/docker/stars/annixa/docker-nginx-letsencrypt-proxy.svg)
-- Release: ![GitHub Release Version](https://img.shields.io/github/release/annixa/docker-nginx-letsencrypt-proxy.svg)
-- Open Issues: ![GitHub Open Issues](https://img.shields.io/github/issues/annixa/docker-nginx-letsencrypt-proxy.svg)
+Configuration
+-------------
 
-
-## Configuration:
 The following docker environment variables are required for proper usage:
 - `LE_EMAIL`, the email address for use with Let's Encrypt (simply registers your public key for retrieval).
 - `LE_DOMAIN`, a comma separated list of domains current configured to point at your server
@@ -32,13 +35,17 @@ The following docker environment variables are required for proper usage:
 | `INTERMEDIATE` |	Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7 |
 | `OLD` |	Windows XP IE6, Java 6 | 
 
-### When certificates are updated, the event handler will:
-- Move the resulting certificates to `/etc/nginx/ssl`
-- Tell `supervisor` to restart nginx: `supervisorctl restart nginx`
-- If `SLACK_NOTIFICATIONS_INFRA_URL` is set, send a notification to your slack channel.
+How It Works
+------------
 
+When certificates are updated, the event handler will:
 
-### The premise is simple:
+1. Move the resulting certificates to `/etc/nginx/ssl`
+1. Tell `supervisor` to restart nginx: `supervisorctl restart nginx`
+1. If `SLACK_NOTIFICATIONS_INFRA_URL` is set, send a notification to your slack channel.
+
+The premise is simple:
+
 - The image is configured to request a Let's Encrypt certificate for each of the (comma separated) domains listed in the `LE_DOMAIN` env variable provided in `docker-compose.yml`
   - Since Let's Encrypt is rate limited, an env variable of `LE_TEST=true` can be provided during testing (in `docker-compose.yml`).
 - `supervisor` handles the running of nginx and the letsencrypt event handler, which is run every hour.
