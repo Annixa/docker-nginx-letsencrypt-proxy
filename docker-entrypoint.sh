@@ -17,6 +17,11 @@ TLS_SETTING_CIPHER["INTERMEDIATE"]="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHAC
 TLS_SETTING_CIPHER["OLD"]="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:DES-CBC3-SHA:HIGH:SEED:\!aNULL:\!eNULL:\!EXPORT:\!DES:\!RC4:\!MD5:\!PSK:\!RSAPSK:\!aDH:\!aECDH:\!EDH-DSS-DES-CBC3-SHA:\!KRB5-DES-CBC3-SHA:\!SRP" 
 	
 
+if [ -n "$PROXY_PORT" ]; then
+	export PROXY_PORT_FWD=":$PROXY_PORT"
+fi
+
+export PROXY_PORT="${PROXY_PORT:-443}"
 
 # Check to see if let's encrypt has certificates already issued to a volume. 
 # If so, immediately overwrite fake certificates.
@@ -78,7 +83,7 @@ else
 	# echo "" > /etc/nginx/sites-enabled/webapp.conf
 
 	# Updating to support changes in LE
-	cat /etc/nginx/sites-available/wellknown.conf > /etc/nginx/sites-enabled/webapp.conf
+	envsubst '$PROXY_PORT_FWD' < /etc/nginx/sites-available/wellknown.conf > /etc/nginx/sites-enabled/webapp.conf
 
 	CT=0
 	for i in "${DOMAINS[@]}"; do
@@ -88,7 +93,7 @@ else
 		    # Get right VALUE
 		    THIS_DEST="${DESTINATIONS[$CT]}"
 		fi
-	    cat /etc/nginx/sites-available/webapp.1.conf >> /etc/nginx/sites-enabled/webapp.conf
+	    envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.1.conf >> /etc/nginx/sites-enabled/webapp.conf
 
 	    echo "	ssl_protocols	${TLS_SETTING_PROTOS["$TLS_SETTING"]};" >> /etc/nginx/sites-enabled/webapp.conf
 	    echo "	ssl_ciphers '${TLS_SETTING_CIPHER["$TLS_SETTING"]}';" >> /etc/nginx/sites-enabled/webapp.conf
@@ -98,7 +103,7 @@ else
 
 	    
 	    echo "        proxy_pass          $THIS_DEST;" >> /etc/nginx/sites-enabled/webapp.conf
-	    cat /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
+	    envsubst '' < /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
 
 	    CT=$(($CT + 1))
 	done

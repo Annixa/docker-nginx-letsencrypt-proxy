@@ -14,6 +14,7 @@ RUN apt-get update && \
     supervisor \
     npm \
     curl \
+    gettext-base \
     git && \
     apt-get clean
 
