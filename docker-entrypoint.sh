@@ -75,7 +75,11 @@ else
 	cp -f $TLS_DHPARAMS /etc/nginx/ssl/dhparam.pem
 
 	echo "DOCKER NGINX LET'S ENCRYPT: render nginx configuration with proxy and destination details details";
-	echo "" > /etc/nginx/sites-enabled/webapp.conf
+	# echo "" > /etc/nginx/sites-enabled/webapp.conf
+
+	# Updating to support changes in LE
+	cat /etc/nginx/sites-available/wellknown.conf > /etc/nginx/sites-enabled/webapp.conf
+
 	CT=0
 	for i in "${DOMAINS[@]}"; do
 		# By default, grab the first PROXY_DEST in the array
