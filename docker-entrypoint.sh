@@ -103,7 +103,7 @@ else
 
 	    
 	    echo "        proxy_pass          $THIS_DEST;" >> /etc/nginx/sites-enabled/webapp.conf
-	    envsubst '' < /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
+	    envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
 
 	    CT=$(($CT + 1))
 	done
