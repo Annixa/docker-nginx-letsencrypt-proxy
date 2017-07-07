@@ -22,6 +22,7 @@ RUN rm -f /etc/nginx/sites-enabled/default && \
     rm -f /etc/nginx/sites-available/default
 COPY config/nginx/webapp.1.conf /etc/nginx/sites-available/webapp.1.conf
 COPY config/nginx/webapp.2.conf /etc/nginx/sites-available/webapp.2.conf
+COPY config/nginx/wellknown.conf /etc/nginx/sites-available/wellknown.conf
 # RUN ln -s /etc/nginx/sites-available/webapp.conf /etc/nginx/sites-enabled/webapp.conf
 
 # config supervisor
