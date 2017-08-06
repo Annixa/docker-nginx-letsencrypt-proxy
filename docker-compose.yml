@@ -12,7 +12,7 @@ docker-nginx-letsencrypt-proxy:
         - LE_EMAIL=test@test.com
         - LE_DOMAIN=domain.com
         - PROXY_DEST=https://www.google.com
-        - PROXY_PORT=8443
+        # - PROXY_PORT=8443
         #- SLACK_NOTIFICATIONS_INFRA_URL=https://hooks.slack.com/services/???????? # Be sure to fill this in using your URL for the slack webhook integration
     volumes:
       - "/etc/letsencrypt"
