@@ -88,25 +88,26 @@ else
 	CT=0
 	for i in "${DOMAINS[@]}"; do
 		# By default, grab the first PROXY_DEST in the array
-	    THIS_DEST="$DESTINATIONS"
-	    if [ $CT -lt ${#DESTINATIONS[@]} ]; then
-		    # Get right VALUE
-		    THIS_DEST="${DESTINATIONS[$CT]}"
+		THIS_DEST="$DESTINATIONS"
+		if [ $CT -lt ${#DESTINATIONS[@]} ]; then
+			# Get right VALUE
+			THIS_DEST="${DESTINATIONS[$CT]}"
 		fi
-	    envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.1.conf >> /etc/nginx/sites-enabled/webapp.conf
+		envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.1.conf >> /etc/nginx/sites-enabled/webapp.conf
 
-	    echo "	ssl_protocols	${TLS_SETTING_PROTOS["$TLS_SETTING"]};" >> /etc/nginx/sites-enabled/webapp.conf
-	    echo "	ssl_ciphers '${TLS_SETTING_CIPHER["$TLS_SETTING"]}';" >> /etc/nginx/sites-enabled/webapp.conf
+		echo "ssl_protocols	${TLS_SETTING_PROTOS["$TLS_SETTING"]};" >> /etc/nginx/sites-enabled/webapp.conf
+		echo "ssl_ciphers '${TLS_SETTING_CIPHER["$TLS_SETTING"]}';" >> /etc/nginx/sites-enabled/webapp.conf
 
-	    echo "	server_name $i;" >> /etc/nginx/sites-enabled/webapp.conf
-	    echo "  location / {" >> /etc/nginx/sites-enabled/webapp.conf
+		echo "server_name $i;" >> /etc/nginx/sites-enabled/webapp.conf
+		echo "location / {" >> /etc/nginx/sites-enabled/webapp.conf
 
-	    
-	    echo "        proxy_pass          $THIS_DEST;" >> /etc/nginx/sites-enabled/webapp.conf
-	    envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
+		
+		echo "        proxy_pass          $THIS_DEST;" >> /etc/nginx/sites-enabled/webapp.conf
+		envsubst '$PROXY_PORT' < /etc/nginx/sites-available/webapp.2.conf >> /etc/nginx/sites-enabled/webapp.conf
 
-	    CT=$(($CT + 1))
+		CT=$(($CT + 1))
 	done
+
 	
 fi
 
