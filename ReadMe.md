@@ -12,6 +12,34 @@ This project provides a simple nginx configuration and auto-updating Let's Encry
 
 Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
 
+Quick Deploy (`docker-compose.yml`)
+-----------------------------------
+> _"Put this in your stack and deploy it."_
+```
+version: '2'
+docker-nginx-letsencrypt-proxy:
+    build: .
+    ports:
+        - 80:80
+        - 443:443
+    container_name: docker-nginx-letsencrypt-proxy
+    log_opt:
+         max-size: 50k
+    environment:
+        - LE_ENABLED=true
+        # - LE_TEST=true # LE is rate limited. While doing development, be sure to set testing mode so requests don't count against our quota.
+        - LE_EMAIL=test@test.com # Your email, here
+        - LE_DOMAIN=domain.com #A comma separated list of your domains, here
+        - PROXY_DEST=https://www.google.com #A comma separated list of destinations for the proxied services
+        # - PROXY_PORT=8443
+        # - SLACK_NOTIFICATIONS_INFRA_URL=https://hooks.slack.com/services/???????? # Be sure to fill this in using your URL for the slack webhook integration
+    volumes:
+      - "/etc/letsencrypt"
+    # links:
+    #   - mycontainer
+    # If using version 1, link to your container
+```
+
 Configuration
 -------------
 
@@ -27,7 +55,7 @@ The following docker environment variables are required for proper usage:
 - `TLS_SETTING` (optional), one of `MODERN`, `INTERMEDIATE`, OR `OLD`. All other values will be igored. `MODERN` is default to allow for the best security setting.
   - See [https://wiki.mozilla.org/Security/Server_Side_TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) for more details
   - See [docker-entrypoint.sh](https://github.com/Annixa/docker-nginx-letsencrypt-proxy/blob/master/docker-entrypoint.sh) for the suites used
-  - Updated April 17, 2016
+  - Updated August 6, 2017
   - This setting will correspond to the following browser compatibilities:
   
 | Configuration | Oldest compatible client | 
