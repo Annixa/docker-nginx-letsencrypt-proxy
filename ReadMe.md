@@ -27,7 +27,7 @@ The following docker environment variables are required for proper usage:
 - `TLS_SETTING` (optional), one of `MODERN`, `INTERMEDIATE`, OR `OLD`. All other values will be igored. `MODERN` is default to allow for the best security setting.
   - See [https://wiki.mozilla.org/Security/Server_Side_TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) for more details
   - See [docker-entrypoint.sh](https://github.com/Annixa/docker-nginx-letsencrypt-proxy/blob/master/docker-entrypoint.sh) for the suites used
-  - Updated April 17, 2016
+  - Updated August 6, 2017
   - This setting will correspond to the following browser compatibilities:
   
 | Configuration | Oldest compatible client | 
