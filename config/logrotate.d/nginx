@@ -1,0 +1,11 @@
+/var/log/nginx/localhost.*_log {
+    rotate $LOGROTATE_FILE_LIMIT
+    size $LOGROTATE_SIZE
+    missingok
+    compress
+    notifempty
+    sharedscripts
+    postrotate
+        supervisorctl restart nginx
+    endscript
+}

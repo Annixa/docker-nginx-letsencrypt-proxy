@@ -8,14 +8,15 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apt-get update -qq && \
+    apt-get install -yqq \
     nginx \
     supervisor \
     npm \
     curl \
     gettext-base \
-    git && \
+    git \
+    logrotate && \
     apt-get clean
 
 # configure nginx
@@ -34,10 +35,6 @@ COPY config/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /etc/nginx/ssl
 RUN chmod 400 -R /etc/nginx/ssl
 
-# Add entrypoint
-COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
-
 # Let's Encrypt Support
 WORKDIR /opt
 RUN git clone https://github.com/letsencrypt/letsencrypt
@@ -49,6 +46,12 @@ RUN mkdir -p /var/www/challenges && chmod 777 -R /var/www/challenges
 RUN cd /opt/letsencrypt && ./letsencrypt-auto --help
 VOLUME /etc/letsencrypt
 
+# set up logrotate config
+COPY config/logrotate.d/nginx /etc/logrotate.d/nginx.tmpl
+
+# Add entrypoint
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 
 WORKDIR /opt
 EXPOSE 80 443

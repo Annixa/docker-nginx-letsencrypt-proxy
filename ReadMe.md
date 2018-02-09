@@ -8,7 +8,7 @@ Docker Nginx Proxy with Let's Encrypt
 
 Docker Nginx Proxy with Let's Encrypt simplifies application integration with Let's Encrypt.
 
-This project provides a simple nginx configuration and auto-updating Let's Encrypt for integration with existing services. 
+This project provides a simple nginx configuration and auto-updating Let's Encrypt for integration with existing services.
 
 Docker Hub image: [docker-nginx-letsencrypt-proxy](https://hub.docker.com/r/annixa/docker-nginx-letsencrypt-proxy/)
 
@@ -57,12 +57,15 @@ The following docker environment variables are required for proper usage:
   - See [docker-entrypoint.sh](https://github.com/Annixa/docker-nginx-letsencrypt-proxy/blob/master/docker-entrypoint.sh) for the suites used
   - Updated August 6, 2017
   - This setting will correspond to the following browser compatibilities:
-  
-| Configuration | Oldest compatible client | 
+- `LOGROTATE_SIZE` (optional, defaults to 10k), the size limit of the log files
+- `LOGROTATE_FILE_LIMIT` (optional, defaults to 7), the number of log files to keep
+- `CRON_SCHEDULE` (optional, defaults to 0 * * * *), the cron schedule for logrotate
+
+| Configuration | Oldest compatible client |
 | ------------- |:------------------------|
 | `MODERN` | Firefox 27, Chrome 30, IE 11 on Windows 7, Edge, Opera 17, Safari 9, Android 5.0, Java 8 |
 | `INTERMEDIATE` |	Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7 |
-| `OLD` |	Windows XP IE6, Java 6 | 
+| `OLD` |	Windows XP IE6, Java 6 |
 
 How It Works
 ------------
